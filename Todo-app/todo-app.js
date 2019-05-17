@@ -1,54 +1,8 @@
-const todos = [{
-    text: 'Order dog food',
-    completed: false
-}, {
-    text: 'Clean kitchen',
-    completed: true
-}, {
-    text: 'Buy food',
-    completed: true
-}, {
-    text: 'Do work',
-    completed: false
-}, {
-    text: 'Exercise',
-    completed: true
-}]
+let todos = getSavedTodos()
 
 const filters = {
     searchText: '',
     hideCompeleted: false,
-}
-
-const renderTodos = function (todos, filters) {
-    const filteredTodos = todos.filter(function (todo) {
-        const searchTextMatch = todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
-        const hideCompletedMatch = !filters.hideCompeleted || !todo.completed
-        
-        return searchTextMatch && hideCompletedMatch
-    })
-
-    filteredTodos.forEach(function (todo) {
-        const todoEl = document.createElement('p')
-        todoEl.textContent = todo.text
-        document.querySelector('#todos').appendChild(todoEl)
-    })
-
-    const incompleteTodos = filteredTodos.filter(function (todo) {
-        return !todo.completed
-    })
-
-    document.querySelector('#todos').innerHTML = ''
-
-    const summary = document.createElement('h2')
-    summary.textContent = `You have ${incompleteTodos.length} todos left`
-    document.querySelector('#todos').appendChild(summary)
-
-    filteredTodos.forEach(function (todo) {
-        const p = document.createElement('p')
-        p.textContent = todo.text
-        document.querySelector('#todos').appendChild(p)
-    })
 }
 
 renderTodos(todos, filters)
@@ -61,14 +15,16 @@ document.querySelector('#search-text').addEventListener('input', function(e) {
 document.querySelector('#new-todo').addEventListener('submit', function(e) {
     e.preventDefault()
     todos.push({
+        id: uuidv4(),
         text: e.target.elements.text.value, 
         completed: false
     })
+    saveTodos(todos)
     renderTodos(todos, filters)
     e.target.elements.text.value = ''
 })
 
 document.querySelector('#hide-completed').addEventListener('change', function(e) {
-    filters.hideCompeleted = e.target.checked
+    filters.hideCompleted = e.target.checked
     renderTodos(todos, filters)
 })
