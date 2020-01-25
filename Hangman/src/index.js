@@ -1,3 +1,6 @@
+import Hangman from './hangman';
+import getPuzzle from './requests';
+
 const puzzleEl = document.querySelector('#puzzle')
 const guessesEl = document.querySelector('#guesses')
 
@@ -16,7 +19,7 @@ const render = () => {
     game1.puzzle.split('').forEach((letter) => {
         const letterEl = document.createElement('span')
         letterEl.textContent = letter
-        puzzleEl.appendChild(letterEl)  
+        puzzleEl.appendChild(letterEl)
     })
 }
 
@@ -29,16 +32,3 @@ const startGame = async () => {
 document.querySelector('#reset').addEventListener('click', startGame)
 
 startGame()
-
-
-// getPuzzle('2').then((puzzle) => {
-//     console.log(puzzle)
-// }).catch((error) => {
-//     console.log(`Error: ${error}`)
-// })
-
-// getCurrentCountry().then((country) => {
-//     console.log(country.name)
-// }).catch((error) => {
-//     console.log(`Error: ${error}`)
-// })
